@@ -39,7 +39,11 @@ abstract class _Result<T, E extends Error> {
   }
 
   chain<X>(ok: (value: T) => Result<X, E>): Result<X, E>;
-  chain<X, U extends Error = E>(
+  chain<X>(
+    ok: (value: T) => Result<X, E>,
+    err: (error: E) => Result<X, E>
+  ): Result<X, E>;
+  chain<X, U extends Error>(
     ok: (value: T) => Result<X, U>,
     err: (error: E) => Result<X, U>
   ): Result<X, U>;
