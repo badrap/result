@@ -31,13 +31,6 @@ abstract class _Result<T, E extends Error> {
     );
   }
 
-  mapErr<F extends Error>(err: (error: E) => F): Result<T, F> {
-    return this._chain(
-      value => Result.ok(value),
-      error => Result.err(err(error))
-    );
-  }
-
   chain<X>(ok: (value: T) => Result<X, E>): Result<X, E>;
   chain<X>(
     ok: (value: T) => Result<X, E>,
@@ -52,10 +45,6 @@ abstract class _Result<T, E extends Error> {
     err?: (error: E) => Result<unknown>
   ): Result<unknown> {
     return this._chain(ok, err || (error => Result.err(error)));
-  }
-
-  chainErr<U extends Error = E>(err: (error: E) => Result<T, U>): Result<T, U> {
-    return this._chain(value => Result.ok(value), err);
   }
 }
 
