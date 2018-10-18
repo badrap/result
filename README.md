@@ -20,25 +20,37 @@ import { Result } from "@badrap/result";
 
 ## API
 
-### Result.ok
+### Result.ok / Result.err
 
-Returns a new **Result.Ok** wrapping the given value.
+**Result<T, E>** is a type that wraps either a value that is the result of a succesful computation and of type **T**, or an error of type **E** denoting a failed computation. The type is actually an union of two types, where **Result.Ok<T, E>** wraps a success value and **Result.Err<T, E>** wraps an error.
+
+**Result.ok** returns a new **Result.Ok** wrapping the given value, while **Result.err** returns a new **Result.Err** wrapping the given error.
 
 ```ts
 const res = Result.ok(1);
 res.isOk;   // true
-```
 
-### Result.err
-
-Returns a new **Result.Err** wrapping the given error.
-
-```ts
 const res = Result.err(new Error());
 res.isOk;   // false
 ```
 
-### Result#isOk & Result.isErr
+**Result.Ok** has an additional property **value** containing the wrapped value. Similarly, **Result.Err** has the property **error** containing the wrapped error. They can be accessed after asserting to TypeScript's type checker that it's safe to do so. The **isErr** and **isOk** properties (see below) are handy for this. 
+
+```ts
+const res = Math.random() < 0.5 ? Result.ok(1) : Result.err(new Error("oh no"));
+
+if (res.isErr) {
+  // TypeScript now knows that res is a Result.Err, and we can access res.error
+  res.error;  // Error("oh no")
+}
+
+if (res.isOk) {
+  // TypeScript now knows that res is a Result.Ok, and we can access res.value
+  res.value;  // 1
+}
+```
+
+### Result#isOk / Result.isErr
 
 **Result#isOk** and **Result#isErr** are complementary `readonly boolean` properties. **isOk** is `true` for **Result.Ok** and `false` for **Result.Err**.
 
@@ -58,22 +70,6 @@ ok.isErr;  // false
 
 const err = Result.err(new Error());
 err.isErr; // true
-```
-
-These properties are handy for type assertions.
-
-```ts
-const res = Math.random() < 0.5 ? Result.ok(1) : Result.err(new Error("oh no"));
-
-if (res.isErr) {
-  // TypeScript now knows that res is a Result.Err, and we can access res.error
-  res.error;  // Error("oh no")
-}
-
-if (res.isOk) {
-  // TypeScript now knows that res is a Result.Ok, and we can access res.value
-  res.value;  // 1
-}
 ```
 
 ### Result#unwrap
