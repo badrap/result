@@ -50,9 +50,9 @@ if (res.isOk) {
 }
 ```
 
-### Result#isOk / Result.isErr
+### Result#isOk / Result#isErr
 
-**Result#isOk** and **Result#isErr** are complementary `readonly boolean` properties. **isOk** is `true` for **Result.Ok** and `false` for **Result.Err**.
+**Result#isOk** and **Result#isErr** are complementary readonly properties. **isOk** is `true` for **Result.Ok** and `false` for **Result.Err**.
 
 ```ts
 const ok = Result.ok(1);
@@ -62,7 +62,7 @@ const err = Result.err(new Error());
 err.isOk; // false
 ```
 
-**isErr** is the inverse of **isOk**: 'false' for **Result.Ok** and 'true' for **Result.Err**.
+**isErr** is the inverse of **isOk**: `false` for **Result.Ok** and `true` for **Result.Err**.
 
 ```ts
 const ok = Result.ok(1);
