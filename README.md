@@ -20,7 +20,9 @@ import { Result } from "@badrap/result";
 
 ## API
 
-**Result<T, E>** is a type that wraps either a value that is the result of a succesful computation and of type **T**, or an error of type **E** denoting a failed computation. The type is actually an union of two types, where **Result.Ok<T, E>** wraps a success value and **Result.Err<T, E>** wraps an error.
+**Result<T, E extends Error = Error>** is a type that wraps either a value that is the result of a succesful computation and of type **T**, or an error of type **E** denoting a failed computation.
+
+The type is actually an union of two types: **Result.Ok<T, E>** that wraps a success value and **Result.Err<T, E>** that wraps an error.
 
 ### Result.ok / Result.err
 
