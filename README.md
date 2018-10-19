@@ -1,6 +1,6 @@
 # @badrap/result [![CircleCI](https://circleci.com/gh/badrap/result.svg?style=shield)](https://circleci.com/gh/badrap/result)
 
-A TypeScript result type taking cues from Rust's Result and Haskell's Either types. It's goals are:
+A TypeScript result type taking cues from [Rust's Result](https://doc.rust-lang.org/std/result/) and [Haskell's Either](http://hackage.haskell.org/package/base/docs/Data-Either.html) types. It's goals are:
 
  * **Small, idiomatic API surface**: Mix and match parts from Rust's Result and Haskell's Either types, but modify them to make the experience TypeScript-y (TypeScriptic? TypeScriptish?). Of course this is pretty subjective.
  * **Coding errors should throw**: While **Result#map** and **Result#chain** together somewhat resemble [Promise#then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) but differ in that they don't implicitly wrap errors thrown in callbacks.
