@@ -94,17 +94,20 @@ err.unwrap(value => value + 2, error => 0);   // 0
 ```
 
 As a small extra convenience the result types from the callbacks don't have to be the same.
-Here's an example HTTP handler demonstrating this, using an imaginary **validate** function
-that returns a **Result**:
+Here's an example [Koa.js](https://koajs.com/) handler demonstrating this, using an imaginary 
+**validate** function that returns a **Result**:
 
 ```ts
-app.use(ctx =>
-  validate(ctx.request.body).unwrap(
+app.use(async ctx =>
+  await validate(ctx.request.body).unwrap(
     async (value: any) => {
       ...
     },
     error => {
-      ctx.throw(400, `Request validation failed: ${error.message}`);
+      ctx.status = 422;
+      ctx.body = {
+        message: "validation failed"
+      };
     }
   )
 );
