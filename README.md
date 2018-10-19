@@ -2,7 +2,7 @@
 
 A TypeScript result type taking cues from [Rust's Result](https://doc.rust-lang.org/std/result/) and [Haskell's Either](http://hackage.haskell.org/package/base/docs/Data-Either.html) types. It's goals are:
 
- * **Small, idiomatic API surface**: Mix and match parts from Rust's Result and Haskell's Either types, but modify them to make the experience TypeScript-y (TypeScriptic? TypeScriptish?). Of course this is pretty subjective.
+ * **Small, idiomatic API surface**: Mix and match parts from Rust's Result and Haskell's Either types, but modify them to make the experience TypeScript-y (TypeScriptic? TypeScriptalicious?). Of course this is pretty subjective.
  * **Coding errors should throw**: While **Result#map** and **Result#chain** together somewhat resemble [Promise#then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) but differ in that they don't implicitly wrap errors thrown in callbacks.
  * **Be ergonomic but safe**: Leverage TypeScript's type inference to make common cases simple while keeping type safety. This also helps to get a nice editor experience in e.g. Visual Studio Code.
 
