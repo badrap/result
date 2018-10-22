@@ -5,7 +5,7 @@
   "main": "dist/commonjs/index.js",
   "module": "dist/module/index.js",
   "sideEffects": false,
-  "repository": "git@github.com:badrap/result.git",
+  "repository": "badrap/result",
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
   "scripts": {
