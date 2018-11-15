@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "test": "tsc --noEmit --skipLibCheck && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
-    "build": "rm -rf dist && microbundle --format es,cj",
+    "build": "rm -rf dist && microbundle --format es,cjs",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
