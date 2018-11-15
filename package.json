@@ -2,23 +2,25 @@
   "name": "@badrap/result",
   "version": "0.2.1",
   "description": "A TypeScript result type taking cues from Rust's Result and Haskell's Either types",
-  "main": "dist/commonjs/index.js",
-  "module": "dist/module/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "source": "src/index.ts",
   "sideEffects": false,
   "repository": "badrap/result",
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
   "scripts": {
-    "test": "tsc --noEmit --skipLibCheck && mocha --require ts-node/register test/**/*.test.ts",
-    "build": "rm -rf dist && tsc && tsc --module es2015 --outDir dist/module",
-    "prepublish": "npm run build"
+    "test": "tsc --noEmit --skipLibCheck && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
+    "build": "rm -rf dist && microbundle --format es,cj",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.6",
+    "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
+    "microbundle": "^0.7.0",
     "mocha": "^5.2.0",
     "ts-node": "^7.0.1",
-    "typescript": "^3.1.3"
+    "typescript": "^3.1.6"
   }
 }

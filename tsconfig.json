@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist/commonjs",
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
     "declaration": true,
     "strict": true,
     "noImplicitReturns": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "test/**/*"]
 }
