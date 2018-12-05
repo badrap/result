@@ -62,3 +62,5 @@ typings/
 
 # Build directory
 dist/
+
+.rts2_cache_*/
