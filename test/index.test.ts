@@ -245,4 +245,71 @@ describe("Result", () => {
     );
     const b: Result<number, TestError> = a;
   });
+
+  describe("all", () => {
+    it("accepts arrays", () => {
+      const a = Result.all([Result.ok(1), Result.ok("test")]).unwrap();
+      expect(a).to.deep.equal([1, "test"]);
+    });
+
+    it("accepts objects", () => {
+      const a = Result.all({ x: Result.ok(1), y: Result.ok("test") }).unwrap();
+      expect(a).to.deep.equal({ x: 1, y: "test" });
+    });
+
+    it("supports tuple types from length 0 to length 16", () => {
+      const a: [] = Result.all([]).unwrap();
+      const b: [number] = Result.all([Result.ok(1)]).unwrap();
+      const c: [number, string] = Result.all([
+        Result.ok(1),
+        Result.ok("a")
+      ]).unwrap();
+      const d: [
+        1,
+        "a",
+        2,
+        "b",
+        3,
+        "c",
+        4,
+        "d",
+        5,
+        "e",
+        6,
+        "f",
+        7,
+        "g",
+        8,
+        "h"
+      ] = Result.all([
+        Result.ok(1 as const),
+        Result.ok("a" as const),
+        Result.ok(2 as const),
+        Result.ok("b" as const),
+        Result.ok(3 as const),
+        Result.ok("c" as const),
+        Result.ok(4 as const),
+        Result.ok("d" as const),
+        Result.ok(5 as const),
+        Result.ok("e" as const),
+        Result.ok(6 as const),
+        Result.ok("f" as const),
+        Result.ok(7 as const),
+        Result.ok("g" as const),
+        Result.ok(8 as const),
+        Result.ok("h" as const)
+      ]).unwrap();
+    });
+
+    it("preserves the error types as a union", () => {
+      const a: Result<unknown, TypeError | TestError> = Result.all([
+        Result.err(new TypeError("type error")),
+        Result.err(new TestError("test error"))
+      ]);
+      const b: Result<unknown, TypeError | TestError> = Result.all({
+        x: Result.err(new TypeError("type error")),
+        y: Result.err(new TestError("test error"))
+      });
+    });
+  });
 });
