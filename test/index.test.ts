@@ -311,5 +311,14 @@ describe("Result", () => {
         y: Result.err(new TestError("test error"))
       });
     });
+
+    it("returns a failing result as-is", () => {
+      const r = Result.err(ERROR);
+      const a = Result.all([Result.ok(1), r]);
+      expect(() => a.unwrap()).to.throw(ERROR);
+
+      const b = Result.all({ x: Result.ok(1), y: r });
+      expect(() => b.unwrap()).to.throw(ERROR);
+    });
   });
 });

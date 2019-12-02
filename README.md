@@ -36,7 +36,7 @@ const res = Result.err(new Error());
 res.isOk;   // false
 ```
 
-**Result.Ok** has an additional property **value** containing the wrapped value. Similarly, **Result.Err** has the property **error** containing the wrapped error. They can be accessed after asserting to TypeScript's type checker that it's safe to do so. The **isErr** and **isOk** properties (see below) are handy for this. 
+**Result.Ok** has an additional property **value** containing the wrapped value. Similarly, **Result.Err** has the property **error** containing the wrapped error. They can be accessed after asserting to TypeScript's type checker that it's safe to do so. The **isErr** and **isOk** properties (see below) are handy for this.
 
 ```ts
 const res = Math.random() < 0.5 ? Result.ok(1) : Result.err(new Error("oh no"));
@@ -94,7 +94,7 @@ err.unwrap(value => value + 2, error => 0);   // 0
 ```
 
 As a small extra convenience the result types from the callbacks don't have to be the same.
-Here's an example [Koa.js](https://koajs.com/) handler demonstrating this, using an imaginary 
+Here's an example [Koa.js](https://koajs.com/) handler demonstrating this, using an imaginary
 **validate** function that returns a **Result**:
 
 ```ts
@@ -142,6 +142,36 @@ ok.chain(value => Result.ok(value + 1), error => Result.ok(0)).unwrap();  // 2
 err.chain(value => Result.ok(value + 1), error => Result.ok(0)).unwrap(); // 0
 ```
 
+### Result.all
+
+Return a new **Result** where the wrapped value is the
+collection of the wrapped values of the input array.
+
+```ts
+Result.all([
+  Result.ok(1),
+  Result.ok("test")
+]).unwrap();          // [1, "test"]
+```
+
+If any of the input results wraps an error then that result is returned as-is.
+
+```ts
+Result.all([
+  Result.ok(1),
+  Result.err(new Error("oh no"))
+]).unwrap();          // throws Error("oh no")
+```
+
+Non-array objects can also be given as arguments. In that case the wrapped
+output value is also an object.
+
+```ts
+Result.all({
+  x: Result.ok(1),
+  y: Result.ok("test")
+}).unwrap();          // { x: 1, y: "test" }
+```
 ## License
 
 This library is licensed under the MIT license. See [LICENSE](./LICENSE).
