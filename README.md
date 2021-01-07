@@ -34,6 +34,9 @@ res.isOk;   // true
 
 const res = Result.err(new Error());
 res.isOk;   // false
+
+const res = Result.err(); // functionally equal to Result.err(new Error())
+res.isOk;   // false
 ```
 
 **Result.Ok** has an additional property **value** containing the wrapped value. Similarly, **Result.Err** has the property **error** containing the wrapped error. They can be accessed after asserting to TypeScript's type checker that it's safe to do so. The **isErr** and **isOk** properties (see below) are handy for this.
