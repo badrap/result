@@ -85,8 +85,9 @@ export namespace Result {
   export function ok<T, E extends Error>(value: T): Result<T, E> {
     return new _Ok(value);
   }
+  export function err<E extends Error, T = never>(error?: E): Result<T, E>
   export function err<E extends Error, T = never>(error: E): Result<T, E> {
-    return new _Err(error);
+    return new _Err(error || new Error());
   }
 
   type U = Result<unknown>;
