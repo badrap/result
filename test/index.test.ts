@@ -116,6 +116,16 @@ describe("Result", () => {
     });
   });
   describe("err", () => {
+    it("accepts 1 argument, any Error subtype", () => {
+      const r: Result<unknown, TypeError> = Result.err(new TypeError("test"));
+      expect(r.unwrap.bind(r)).to.throw(TypeError, "test");
+    });
+
+    it("accepts 0 arguments, defaulting to new Error()", () => {
+      const r: Result<unknown, Error> = Result.err();
+      expect(r.unwrap.bind(r)).to.throw(Error);
+    });
+
     describe("#isErr", () => {
       it("equals true", () => {
         expect(Result.err(ERROR).isErr).to.be.true;
