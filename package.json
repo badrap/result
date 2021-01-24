@@ -12,7 +12,7 @@
   "scripts": {
     "test": "tsc --noEmit --skipLibCheck && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
     "build": "rm -rf dist && microbundle --format es,cjs",
-    "prepublishOnly": "npm run build"
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",
