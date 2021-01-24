@@ -2,14 +2,14 @@
 
 A TypeScript result type taking cues from [Rust's Result](https://doc.rust-lang.org/std/result/) and [Haskell's Either](http://hackage.haskell.org/package/base/docs/Data-Either.html) types. It's goals are:
 
- * **Small, idiomatic API surface**: Mix and match parts from Rust's Result and Haskell's Either types, but modify them to make the experience TypeScript-y (TypeScriptic? TypeScriptalicious?). Of course this is pretty subjective.
- * **Coding errors should throw**: While **Result#map** and **Result#chain** together somewhat resemble [Promise#then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) but differ in that they don't implicitly wrap errors thrown in callbacks.
- * **Be ergonomic but safe**: Leverage TypeScript's type inference to make common cases simple while keeping type safety. This also helps to get a nice editor experience in e.g. Visual Studio Code.
+- **Small, idiomatic API surface**: Mix and match parts from Rust's Result and Haskell's Either types, but modify them to make the experience TypeScript-y (TypeScriptic? TypeScriptalicious?). Of course this is pretty subjective.
+- **Coding errors should throw**: While **Result#map** and **Result#chain** together somewhat resemble [Promise#then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) but differ in that they don't implicitly wrap errors thrown in callbacks.
+- **Be ergonomic but safe**: Leverage TypeScript's type inference to make common cases simple while keeping type safety. This also helps to get a nice editor experience in e.g. Visual Studio Code.
 
 ## Installation
 
 ```sh
-$ yarn install @badrap/result
+$ npm i @badrap/result
 ```
 
 ## Usage
@@ -30,13 +30,13 @@ The type is actually an union of two types: **Result.Ok<T, E>** that wraps a suc
 
 ```ts
 const res = Result.ok(1);
-res.isOk;   // true
+res.isOk; // true
 
 const res = Result.err(new Error());
-res.isOk;   // false
+res.isOk; // false
 
 const res = Result.err(); // functionally equal to Result.err(new Error())
-res.isOk;   // false
+res.isOk; // false
 ```
 
 **Result.Ok** has an additional property **value** containing the wrapped value. Similarly, **Result.Err** has the property **error** containing the wrapped error. They can be accessed after asserting to TypeScript's type checker that it's safe to do so. The **isErr** and **isOk** properties (see below) are handy for this.
@@ -46,12 +46,12 @@ const res = Math.random() < 0.5 ? Result.ok(1) : Result.err(new Error("oh no"));
 
 if (res.isErr) {
   // TypeScript now knows that res is a Result.Err, and we can access res.error
-  res.error;  // Error("oh no")
+  res.error; // Error("oh no")
 }
 
 if (res.isOk) {
   // TypeScript now knows that res is a Result.Ok, and we can access res.value
-  res.value;  // 1
+  res.value; // 1
 }
 ```
 
@@ -61,7 +61,7 @@ if (res.isOk) {
 
 ```ts
 const ok = Result.ok(1);
-ok.isOk;  // true
+ok.isOk; // true
 
 const err = Result.err(new Error());
 err.isOk; // false
@@ -71,7 +71,7 @@ err.isOk; // false
 
 ```ts
 const ok = Result.ok(1);
-ok.isErr;  // false
+ok.isErr; // false
 
 const err = Result.err(new Error());
 err.isErr; // true
@@ -86,14 +86,20 @@ This can be modified for providing functions to map the value and error to some 
 const ok = Result.ok(1);
 const err = Result.err(new Error("oh no"));
 
-ok.unwrap();    // 1
-err.unwrap();   // throws Error("oh no")
+ok.unwrap(); // 1
+err.unwrap(); // throws Error("oh no")
 
-ok.unwrap(value => value + 1);    // 2
-err.unwrap(value => value + 2);   // throws Error("oh no")
+ok.unwrap((value) => value + 1); // 2
+err.unwrap((value) => value + 2); // throws Error("oh no")
 
-ok.unwrap(value => value + 1, error => 0);    // 2
-err.unwrap(value => value + 2, error => 0);   // 0
+ok.unwrap(
+  (value) => value + 1,
+  (error) => 0
+); // 2
+err.unwrap(
+  (value) => value + 2,
+  (error) => 0
+); // 0
 ```
 
 As a small extra convenience the result types from the callbacks don't have to be the same.
@@ -125,11 +131,19 @@ to the wrapped value and error.
 const ok = Result.ok(1);
 const err = Result.err(new Error("oh no"));
 
-ok.map(value => value + 1).unwrap();  // 2
-err.map(value => value + 1).unwrap(); // throws Error("oh no")
+ok.map((value) => value + 1).unwrap(); // 2
+err.map((value) => value + 1).unwrap(); // throws Error("oh no")
 
-ok.map(value => value + 1, error => new Error("mapped")).unwrap();  // 2
-err.map(value => value + 1, error => new Error("mapped")).unwrap(); // throws Error("mapped")
+ok.map(
+  (value) => value + 1,
+  (error) => new Error("mapped")
+).unwrap(); // 2
+err
+  .map(
+    (value) => value + 1,
+    (error) => new Error("mapped")
+  )
+  .unwrap(); // throws Error("mapped")
 ```
 
 ### Result#chain
@@ -138,11 +152,19 @@ err.map(value => value + 1, error => new Error("mapped")).unwrap(); // throws Er
 const ok = Result.ok(1);
 const err = Result.err(new Error("oh no"));
 
-ok.chain(value => Result.ok(value + 1)).unwrap();   // 2
-err.chain(value => Result.ok(value + 1)).unwrap();  // throws Error("oh no")
+ok.chain((value) => Result.ok(value + 1)).unwrap(); // 2
+err.chain((value) => Result.ok(value + 1)).unwrap(); // throws Error("oh no")
 
-ok.chain(value => Result.ok(value + 1), error => Result.ok(0)).unwrap();  // 2
-err.chain(value => Result.ok(value + 1), error => Result.ok(0)).unwrap(); // 0
+ok.chain(
+  (value) => Result.ok(value + 1),
+  (error) => Result.ok(0)
+).unwrap(); // 2
+err
+  .chain(
+    (value) => Result.ok(value + 1),
+    (error) => Result.ok(0)
+  )
+  .unwrap(); // 0
 ```
 
 ### Result.all
@@ -151,19 +173,13 @@ Return a new **Result** where the wrapped value is the
 collection of the wrapped values of the input array.
 
 ```ts
-Result.all([
-  Result.ok(1),
-  Result.ok("test")
-]).unwrap();          // [1, "test"]
+Result.all([Result.ok(1), Result.ok("test")]).unwrap(); // [1, "test"]
 ```
 
 If any of the input results wraps an error then that result is returned as-is.
 
 ```ts
-Result.all([
-  Result.ok(1),
-  Result.err(new Error("oh no"))
-]).unwrap();          // throws Error("oh no")
+Result.all([Result.ok(1), Result.err(new Error("oh no"))]).unwrap(); // throws Error("oh no")
 ```
 
 Non-array objects can also be given as arguments. In that case the wrapped
@@ -172,9 +188,10 @@ output value is also an object.
 ```ts
 Result.all({
   x: Result.ok(1),
-  y: Result.ok("test")
-}).unwrap();          // { x: 1, y: "test" }
+  y: Result.ok("test"),
+}).unwrap(); // { x: 1, y: "test" }
 ```
+
 ## License
 
 This library is licensed under the MIT license. See [LICENSE](./LICENSE).
