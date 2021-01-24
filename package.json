@@ -1,6 +1,6 @@
 {
   "name": "@badrap/result",
-  "version": "0.2.7",
+  "version": "0.2.8-pre.0",
   "description": "A TypeScript result type taking cues from Rust's Result and Haskell's Either types",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
