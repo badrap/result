@@ -4,6 +4,7 @@
   "description": "A TypeScript result type taking cues from Rust's Result and Haskell's Either types",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "exports": "./dist/index.modern.js",
   "source": "src/index.ts",
   "sideEffects": false,
   "repository": "badrap/result",
@@ -11,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "test": "tsc --noEmit --skipLibCheck && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
-    "build": "rm -rf dist && microbundle --format es,cjs",
+    "build": "rm -rf dist && microbundle --format modern,es,cjs",
     "prepack": "npm run build"
   },
   "devDependencies": {
