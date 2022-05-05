@@ -1,18 +1,22 @@
 {
   "name": "@badrap/result",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "A TypeScript result type taking cues from Rust's Result and Haskell's Either types",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "exports": "./dist/index.modern.js",
   "source": "src/index.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "default": "./dist/index.modern.mjs"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.mjs",
+  "unpkg": "./dist/index.umd.js",
   "sideEffects": false,
   "repository": "badrap/result",
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
   "scripts": {
     "test": "tsc --noEmit --skipLibCheck && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
-    "build": "rm -rf dist && microbundle --format modern,es,cjs",
+    "build": "rm -rf dist && microbundle",
     "prepack": "npm run build"
   },
   "devDependencies": {
