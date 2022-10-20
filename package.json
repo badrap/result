@@ -4,6 +4,7 @@
   "description": "A TypeScript result type taking cues from Rust's Result and Haskell's Either types",
   "source": "src/index.ts",
   "exports": {
+    "types": "./dist/index.d.ts",
     "require": "./dist/index.js",
     "default": "./dist/index.modern.mjs"
   },
