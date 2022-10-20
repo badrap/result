@@ -1,7 +1,7 @@
 {
-  "files.exclude": {
-    "node_modules": true,
-    "dist": true,
-    ".rts2_cache_*": true
-  }
+  "explorer.excludeGitIgnore": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
