@@ -38,7 +38,7 @@
     "build:node-mjs": "tsc -p ./tsconfig.esm.json --target es2022 --outDir ./dist/node-mjs && mv ./dist/node-mjs/index.js ./dist/node-mjs/index.mjs && mv ./dist/node-mjs/index.d.ts ./dist/node-mjs/index.d.mts",
     "changeset": "changeset",
     "bump": "changeset version",
-    "release": "changeset publish"
+    "release": "npm run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
