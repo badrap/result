@@ -1,5 +1,11 @@
 # @badrap/result
 
+## 0.3.1
+
+### Patch Changes
+
+- [`79467a7`](https://github.com/badrap/result/commit/79467a79ef3cbe8525de946520c1fae86f3e7bcd) Thanks [@jviide](https://github.com/jviide)! - fix: build before releasing
+
 ## 0.3.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@badrap/result",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "commonjs",
   "description": "A TypeScript result type taking cues from Rust's Result and Haskell's Either types",
   "main": "./dist/cjs/index.js",
