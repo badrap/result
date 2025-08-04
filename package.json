@@ -29,7 +29,7 @@
   },
   "scripts": {
     "lint": "eslint --max-warnings 0 .",
-    "typecheck": "tsc --skipLibCheck --noEmit",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "build": "rm -rf dist/* && npm run build:cjs && npm run build:mjs && npm run build:node-mjs && npm run build:node-cjs",
     "build:cjs": "tsc -p ./tsconfig.cjs.json --outDir ./dist/cjs",
