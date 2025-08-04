@@ -44,7 +44,7 @@ abstract class _Result<T, E extends Error> {
     ok: (value: T) => Result<unknown>,
     err?: (error: E) => Result<unknown>,
   ): Result<unknown> {
-    return this._chain(ok, err || ((error) => Result.err(error)));
+    return this._chain(ok, err ?? ((error) => Result.err(error)));
   }
 }
 

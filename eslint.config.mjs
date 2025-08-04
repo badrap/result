@@ -58,7 +58,6 @@ export default [
       ],
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/no-namespace": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off",
       "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
     },

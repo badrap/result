@@ -24,15 +24,18 @@
   "publishConfig": {
     "provenance": true
   },
+  "engines": {
+    "node": ">= 22"
+  },
   "scripts": {
     "lint": "eslint --max-warnings 0 .",
     "typecheck": "tsc --skipLibCheck --noEmit",
     "test": "vitest run",
     "build": "rm -rf dist/* && npm run build:cjs && npm run build:mjs && npm run build:node-mjs && npm run build:node-cjs",
     "build:cjs": "tsc -p ./tsconfig.cjs.json --outDir ./dist/cjs",
-    "build:node-cjs": "tsc -p ./tsconfig.cjs.json --target es2021 --outDir ./dist/node-cjs",
+    "build:node-cjs": "tsc -p ./tsconfig.cjs.json --target es2022 --outDir ./dist/node-cjs",
     "build:mjs": "tsc -p ./tsconfig.esm.json --outDir ./dist/mjs && mv ./dist/mjs/index.js ./dist/mjs/index.mjs && mv ./dist/mjs/index.d.ts ./dist/mjs/index.d.mts",
-    "build:node-mjs": "tsc -p ./tsconfig.esm.json --target es2021 --outDir ./dist/node-mjs && mv ./dist/node-mjs/index.js ./dist/node-mjs/index.mjs && mv ./dist/node-mjs/index.d.ts ./dist/node-mjs/index.d.mts",
+    "build:node-mjs": "tsc -p ./tsconfig.esm.json --target es2022 --outDir ./dist/node-mjs && mv ./dist/node-mjs/index.js ./dist/node-mjs/index.mjs && mv ./dist/node-mjs/index.d.ts ./dist/node-mjs/index.d.mts",
     "changeset": "changeset",
     "bump": "changeset version",
     "release": "changeset publish"
