@@ -1,4 +1,4 @@
-# @badrap/result [![tests](https://github.com/badrap/result/workflows/tests/badge.svg)](https://github.com/badrap/result/actions?query=workflow%3Atests) [![npm](https://img.shields.io/npm/v/@badrap/result.svg)](https://www.npmjs.com/package/@badrap/result)
+# @badrap/result [![CI](https://github.com/badrap/result/actions/workflows/ci.yml/badge.svg)](https://github.com/badrap/result/actions/workflows/ci.yml) [![npm](https://img.shields.io/npm/v/@badrap/result.svg)](https://www.npmjs.com/package/@badrap/result)
 
 A TypeScript result type taking cues from [Rust's Result](https://doc.rust-lang.org/std/result/) and [Haskell's Either](http://hackage.haskell.org/package/base/docs/Data-Either.html) types. It's goals are:
 
@@ -94,11 +94,11 @@ err.unwrap((value) => value + 2); // throws Error("oh no")
 
 ok.unwrap(
   (value) => value + 1,
-  (error) => 0
+  (error) => 0,
 ); // 2
 err.unwrap(
   (value) => value + 2,
-  (error) => 0
+  (error) => 0,
 ); // 0
 ```
 
@@ -136,12 +136,12 @@ err.map((value) => value + 1).unwrap(); // throws Error("oh no")
 
 ok.map(
   (value) => value + 1,
-  (error) => new Error("mapped")
+  (error) => new Error("mapped"),
 ).unwrap(); // 2
 err
   .map(
     (value) => value + 1,
-    (error) => new Error("mapped")
+    (error) => new Error("mapped"),
   )
   .unwrap(); // throws Error("mapped")
 ```
@@ -157,12 +157,12 @@ err.chain((value) => Result.ok(value + 1)).unwrap(); // throws Error("oh no")
 
 ok.chain(
   (value) => Result.ok(value + 1),
-  (error) => Result.ok(0)
+  (error) => Result.ok(0),
 ).unwrap(); // 2
 err
   .chain(
     (value) => Result.ok(value + 1),
-    (error) => Result.ok(0)
+    (error) => Result.ok(0),
   )
   .unwrap(); // 0
 ```
