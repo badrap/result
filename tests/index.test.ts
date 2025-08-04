@@ -11,7 +11,7 @@ describe("Result", () => {
   describe("ok", () => {
     describe("#isOk", () => {
       it("equals true", () => {
-        expect(Result.ok(1).isOk).to.be.true;
+        expect(Result.ok(1).isOk).toBe(true);
       });
       it("can be used for type assertions", () => {
         const ok = Result.ok(1);
@@ -22,7 +22,7 @@ describe("Result", () => {
     });
     describe("#isErr", () => {
       it("equals false", () => {
-        expect(Result.ok(1).isErr).to.be.false;
+        expect(Result.ok(1).isErr).toBe(false);
       });
     });
 
@@ -40,16 +40,16 @@ describe("Result", () => {
         expect(
           r.unwrap(
             (v) => v + 1,
-            (e) => 0
-          )
+            (_e) => 0,
+          ),
         ).to.equal(2);
       });
       it("throws errors raised in a mapping function", () => {
         const r = Result.ok(1);
         expect(() =>
-          r.unwrap((v) => {
+          r.unwrap(() => {
             throw ERROR;
-          })
+          }),
         ).to.throw(ERROR);
       });
     });
@@ -65,17 +65,17 @@ describe("Result", () => {
           r
             .map(
               (v) => v + 1,
-              (e) => new TypeError()
+              () => new TypeError(),
             )
-            .unwrap()
+            .unwrap(),
         ).to.equal(2);
       });
       it("throws errors raised in a mapping function", () => {
         const r = Result.ok(1);
         expect(() =>
-          r.map((v) => {
+          r.map(() => {
             throw ERROR;
-          })
+          }),
         ).to.throw(ERROR);
       });
     });
@@ -84,9 +84,7 @@ describe("Result", () => {
       it("returns the mapped Result with 1 arg", () => {
         const r = Result.ok(1);
         expect(r.chain((v) => Result.ok(v + 1)).unwrap()).to.equal(2);
-        expect(() => r.chain((v) => Result.err(ERROR)).unwrap()).to.throw(
-          ERROR
-        );
+        expect(() => r.chain(() => Result.err(ERROR)).unwrap()).to.throw(ERROR);
       });
       it("returns the mapped Result with 2 args", () => {
         const r = Result.ok(1);
@@ -94,25 +92,25 @@ describe("Result", () => {
           r
             .chain(
               (v) => Result.ok(v + 1),
-              (e) => Result.err(new TypeError())
+              () => Result.err(new TypeError()),
             )
-            .unwrap()
+            .unwrap(),
         ).to.equal(2);
         expect(() =>
           r
             .chain(
-              (v) => Result.err(ERROR),
-              (e) => Result.ok(0)
+              () => Result.err(ERROR),
+              () => Result.ok(0),
             )
-            .unwrap()
+            .unwrap(),
         ).to.throw(ERROR);
       });
       it("throws errors raised in a mapping function", () => {
         const r = Result.ok(1);
         expect(() =>
-          r.chain((v) => {
+          r.chain(() => {
             throw ERROR;
-          })
+          }),
         ).to.throw(ERROR);
       });
     });
@@ -124,13 +122,13 @@ describe("Result", () => {
     });
 
     it("accepts 0 arguments, defaulting to new Error()", () => {
-      const r: Result<unknown, Error> = Result.err();
+      const r: Result<unknown> = Result.err();
       expect(r.unwrap.bind(r)).to.throw(Error);
     });
 
     describe("#isErr", () => {
       it("equals true", () => {
-        expect(Result.err(ERROR).isErr).to.be.true;
+        expect(Result.err(ERROR).isErr).toBe(true);
       });
       it("can be used for type assertions", () => {
         const ok = Result.err(ERROR);
@@ -141,7 +139,7 @@ describe("Result", () => {
     });
     describe("#isOk", () => {
       it("equals false", () => {
-        expect(Result.err(ERROR).isOk).to.be.false;
+        expect(Result.err(ERROR).isOk).toBe(false);
       });
     });
 
@@ -152,26 +150,26 @@ describe("Result", () => {
       });
       it("throws the wrapped error with 1 arg", () => {
         const r = Result.err(ERROR);
-        expect(() => r.unwrap((v) => v + 1)).to.throw(ERROR);
+        expect(() => r.unwrap(() => 1)).to.throw(ERROR);
       });
       it("returns a mapped error with 2 args", () => {
         const r = Result.err(ERROR);
         expect(
           r.unwrap(
-            (v) => v + 1,
-            (e) => 0
-          )
+            () => 1,
+            () => 0,
+          ),
         ).to.equal(0);
       });
       it("throws errors raised in a mapping function", () => {
         const r = Result.err(ERROR);
         expect(() =>
           r.unwrap(
-            (v) => v + 1,
-            (e) => {
+            () => 1,
+            () => {
               throw new TypeError();
-            }
-          )
+            },
+          ),
         ).to.throw(TypeError);
       });
     });
@@ -179,28 +177,28 @@ describe("Result", () => {
     describe("#map", () => {
       it("doesn't map the error with 1 arg", () => {
         const r = Result.err(ERROR);
-        expect(() => r.map((v) => v + 1).unwrap()).to.throw(ERROR);
+        expect(() => r.map(() => 1).unwrap()).to.throw(ERROR);
       });
       it("maps the error with 2 args", () => {
         const r = Result.err(ERROR);
         expect(() =>
           r
             .map(
-              (v) => v + 1,
-              (e) => new TypeError()
+              () => 1,
+              () => new TypeError(),
             )
-            .unwrap()
+            .unwrap(),
         ).to.throw(TypeError);
       });
       it("throws errors raised in a mapping function", () => {
         const r = Result.err(ERROR);
         expect(() =>
           r.map(
-            (v) => v + 1,
-            (e) => {
+            () => 1,
+            () => {
               throw new TypeError();
-            }
-          )
+            },
+          ),
         ).to.throw(TypeError);
       });
     });
@@ -208,36 +206,36 @@ describe("Result", () => {
     describe("#chain", () => {
       it("doesn't map the error with 1 arg", () => {
         const r = Result.err(ERROR);
-        expect(() => r.chain((v) => Result.ok(v + 1)).unwrap()).to.throw(ERROR);
+        expect(() => r.chain(() => Result.ok(1)).unwrap()).to.throw(ERROR);
       });
       it("returns the mapped Result with 2 args", () => {
         const r = Result.err(ERROR);
         expect(() =>
           r
             .chain(
-              (v) => Result.ok(v + 1),
-              (e) => Result.err(new TypeError())
+              () => Result.ok(1),
+              () => Result.err(new TypeError()),
             )
-            .unwrap()
+            .unwrap(),
         ).to.throw(TypeError);
         expect(
           r
             .chain(
-              (v) => Result.err(ERROR),
-              (e) => Result.ok(0)
+              () => Result.err(ERROR),
+              () => Result.ok(0),
             )
-            .unwrap()
+            .unwrap(),
         ).to.equal(0);
       });
       it("throws errors raised in a mapping function", () => {
         const r = Result.err(ERROR);
         expect(() =>
           r.chain(
-            (v) => Result.ok(v + 1),
-            (e) => {
+            () => Result.ok(1),
+            () => {
               throw new TypeError();
-            }
-          )
+            },
+          ),
         ).to.throw(TypeError);
       });
     });
@@ -246,16 +244,16 @@ describe("Result", () => {
   it("preserves the error type over #map(x)", () => {
     const r: Result<number, TestError> = Result.ok(1);
     const a = r.map((v) => v + 1);
-    const b: Result<number, TestError> = a;
+    const _b: Result<number, TestError> = a;
   });
 
   it("preserves the error type over #chain(x, y)", () => {
     const r: Result<number, TestError> = Result.ok(1);
     const a = r.chain(
       (v) => Result.ok(v + 1),
-      (e) => Result.ok(0)
+      () => Result.ok(0),
     );
-    const b: Result<number, TestError> = a;
+    const _b: Result<number, TestError> = a;
   });
 
   describe("all", () => {
@@ -270,13 +268,13 @@ describe("Result", () => {
     });
 
     it("supports tuple types from length 0 to length 16", () => {
-      const a: [] = Result.all([]).unwrap();
-      const b: [number] = Result.all([Result.ok(1)]).unwrap();
-      const c: [number, string] = Result.all([
+      const _a: [] = Result.all([]).unwrap();
+      const _b: [number] = Result.all([Result.ok(1)]).unwrap();
+      const _c: [number, string] = Result.all([
         Result.ok(1),
         Result.ok("a"),
       ]).unwrap();
-      const d: [
+      const _d: [
         1,
         "a",
         2,
@@ -292,7 +290,7 @@ describe("Result", () => {
         7,
         "g",
         8,
-        "h"
+        "h",
       ] = Result.all([
         Result.ok(1 as const),
         Result.ok("a" as const),
@@ -314,11 +312,11 @@ describe("Result", () => {
     });
 
     it("preserves the error types as a union", () => {
-      const a: Result<unknown, TypeError | TestError> = Result.all([
+      const _a: Result<unknown, TypeError | TestError> = Result.all([
         Result.err(new TypeError("type error")),
         Result.err(new TestError("test error")),
       ]);
-      const b: Result<unknown, TypeError | TestError> = Result.all({
+      const _b: Result<unknown, TypeError | TestError> = Result.all({
         x: Result.err(new TypeError("type error")),
         y: Result.err(new TestError("test error")),
       });

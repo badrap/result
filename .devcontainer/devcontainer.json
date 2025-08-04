@@ -1,5 +1,5 @@
 {
-  "name": "Node.js",
+  "name": "@badrap/result",
   "build": {
     "dockerfile": "Dockerfile"
   },
@@ -13,7 +13,7 @@
   ],
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode"]
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
     }
   }
 }
